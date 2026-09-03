@@ -1,0 +1,14 @@
+{% extends 'tienda/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="card shadow-sm p-4 w-50 mx-auto">
+    <h2 class="mb-3">Registrar Producto</h2>
+    <form method="post">
+        {% csrf_token %}
+        <!-- Aquí es donde se muestra el formulario de manera atractiva con el paquete crispy externo -->
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success mt-3 w-100">Guardar Producto</button>
+    </form>
+</div>
+{% endblock %}

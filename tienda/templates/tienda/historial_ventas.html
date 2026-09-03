@@ -1,0 +1,45 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 mt-4">
+    <h2>Historial de Ventas</h2>
+    <div>
+        <a href="{% url 'inventario' %}" class="btn btn-secondary">Volver al Inventario</a>
+        <a href="{% url 'registrar_venta' %}" class="btn btn-success">Nueva Venta</a>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead class="table-dark">
+                ID
+                <tr>
+                    <th>#</th>
+                    <th>Fecha</th>
+                    <th>RUT Cliente</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for venta in ventas %}
+                <tr>
+                    <td>{{ venta.id }}</td>
+                    <td>{{ venta.fecha_venta|date:"d/m/Y H:i" }}</td>
+                    <td>{{ venta.cliente.rut }}</td>
+                    <td>{{ venta.producto.nombre }}</td>
+                    <td>{{ venta.cantidad_vendida }}</td>
+                    <td>${{ venta.total_venta }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No se han registrado ventas todavía.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

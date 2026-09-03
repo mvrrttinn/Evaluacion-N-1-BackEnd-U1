@@ -1,0 +1,25 @@
+{% extends 'tienda/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="card shadow-sm p-4 w-50 mx-auto mt-4 mb-4">
+    <h2 class="mb-4 text-center">Registrar Venta</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <h4 class="text-secondary border-bottom pb-2 mb-3">Datos del Cliente</h4>
+        <!-- Renderiza el formulario del cliente con Crispy -->
+        {{ cliente_form|crispy }}
+        
+        <h4 class="text-secondary border-bottom pb-2 mb-3 mt-4">Detalle de la Venta</h4>
+        <!-- Renderiza el formulario de la venta con Crispy -->
+        {{ venta_form|crispy }}
+        
+        <div class="d-grid gap-2 mt-4">
+            <button type="submit" class="btn btn-success btn-lg">Procesar Venta</button>
+            <a href="{% url 'inventario' %}" class="btn btn-outline-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
