@@ -57,8 +57,8 @@ def registrar_venta(request):
                 # Obtener datos limpios del cliente desde el formulario
                 rut = cliente_form.cleaned_data.get('rut')
                 es_habitual = cliente_form.cleaned_data.get('es_habitual')
-                nombre = cliente_form.cleaned_data.get('nombre')
-                telefono = cliente_form.cleaned_data.get('telefono')
+                nombre = cliente_form.cleaned_data.get('nombre') or ""
+                telefono = cliente_form.cleaned_data.get('telefono') or ""
                 
                 # Buscar si el cliente ya existe o crearlo si es nuevo
                 cliente, created = Cliente.objects.get_or_create(rut=rut, defaults={

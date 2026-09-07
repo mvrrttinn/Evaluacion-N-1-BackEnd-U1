@@ -36,6 +36,10 @@ class ProductoForm(forms.ModelForm):
 
 # Formulario transaccional y de registro de clientes
 class ClienteForm(forms.ModelForm):
+    # Hacemos explícitamente que el nombre y el teléfono NO sean obligatorios en el HTML/Formulario
+    nombre = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    telefono = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
+
     class Meta:
         model = Cliente
         fields = ['rut', 'es_habitual', 'nombre', 'telefono']
@@ -51,6 +55,7 @@ class ClienteForm(forms.ModelForm):
         es_habitual = cleaned_data.get('es_habitual')
         nombre = cleaned_data.get('nombre')
 
+        # Si es cliente habitual, validamos que el nombre esté presente
         if es_habitual and not nombre:
             self.add_error('nombre', "Para ser cliente habitual, el nombre es obligatorio.")
             
