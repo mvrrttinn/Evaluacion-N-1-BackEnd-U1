@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Fondo general verde oscuro muy profundo y suave a la vista */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0f1c14 !important;
+    color: #e2e8f0 !important;
+    min-height: 100vh;
+}
+
+/* Barra de navegación elegante con sombra difusa */
+.navbar {
+    background: rgba(11, 22, 16, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #1a3022;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #fb923c !important; /* Naranja oscuro contrastado */
+}
+
+.nav-link {
+    font-weight: 500;
+    color: #94a3b8 !important;
+    transition: all 0.25s ease;
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem !important;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: #ffffff !important;
+    background-color: rgba(251, 146, 60, 0.1);
+}
+
+/* Títulos de las páginas limpios y claros */
+h2 {
+    color: #f8fafc;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* Tarjetas con tono verde oscuro integrado (sin bloques blancos molestos) */
+.card {
+    border: 1px solid #1f3829;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    background-color: #14241b !important;
+    color: #e2e8f0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Tablas con diseño profesional y filas interactivas */
+.table {
+    color: #e2e8f0;
+    vertical-align: middle;
+    border-color: #1f3829;
+    margin-bottom: 0;
+}
+
+.table thead th {
+    background-color: #0b1610 !important;
+    color: #fb923c !important;
+    font-weight: 600;
+    border-bottom: 2px solid #1f3829;
+    padding: 14px 16px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+.table tbody td {
+    padding: 16px;
+    color: #cbd5e1;
+    border-bottom-color: #1b3124;
+    background-color: transparent !important;
+}
+
+/* Efecto Hover suave en las filas de la tabla */
+.table-hover tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #1a2e22 !important;
+    color: #ffffff;
+}
+
+/* Botones refinados con transiciones fluidas */
+.btn {
+    border-radius: 10px;
+    font-weight: 500;
+    padding: 9px 18px;
+    font-size: 0.875rem;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Botones de acción principales (Naranja oscuro elegante) */
+.btn-primary, .btn-success {
+    background-color: #d97706 !important;
+    border-color: #b45309 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
+}
+
+.btn-primary:hover, .btn-success:hover {
+    background-color: #b45309 !important;
+    border-color: #92400e !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(217, 119, 6, 0.35);
+}
+
+.btn-outline-secondary {
+    color: #94a3b8;
+    border-color: #2e4d3a;
+    background-color: transparent;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #1a2e22;
+    color: #ffffff;
+    border-color: #3f6e52;
+}
+
+/* Controles de formularios adaptados y suaves */
+form label {
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: #cbd5e1;
+    margin-bottom: 0.4rem;
+}
+
+.form-control, .form-select {
+    background-color: #0b1610 !important;
+    border: 1px solid #1f3829;
+    color: #f8fafc !important;
+    border-radius: 10px;
+    padding: 0.7rem 0.9rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: #0b1610 !important;
+    border-color: #d97706;
+    color: #f8fafc !important;
+    box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.2);
+}
+
+.text-muted {
+    color: #64748b !important;
+}
+
+.border-bottom {
+    border-color: #1f3829 !important;
+}
+

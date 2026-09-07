@@ -26,6 +26,18 @@ def eliminar_producto(request, id):
     producto.delete() 
     return redirect('inventario')  # Redirige al listado de productos después de eliminar
 
+# 4. Editar productos
+def editar_producto(request, id):
+    producto = get_object_or_404(Producto, id=id)
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, instance=producto)
+        if form.is_valid():
+            form.save()
+            return redirect('inventario')
+    else:
+        form = ProductoForm(instance=producto)
+    return render(request, 'tienda/editar_producto.html', {'form': form, 'producto': producto})         
+
 # 4. Registrar ventas y actualizar stock
 def registrar_venta(request):
     if request.method == 'POST':
