@@ -9,3 +9,4 @@ tzdata==2026.3
 psycopg2-binary 
 python-dotenv
 whitenoise 
+django-jazzmin

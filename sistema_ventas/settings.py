@@ -48,6 +48,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -149,3 +150,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Configuración de Jazzmin
+JAZZMIN_SETTINGS = {
+    "site_title": "Admin Ventas",
+    "site_header": "Sistema de Ventas",
+    "site_brand": "Panel de Control",
+    "welcome_sign": "Bienvenido al Sistema de Ventas",
+    "copyright": "La Esquinita",
+    "search_model": ["tienda.Producto"],
+    "show_ui_builder": True, 
+}
