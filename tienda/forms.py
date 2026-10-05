@@ -32,7 +32,7 @@ def validar_rut_chile(rut_completo):
 class ProductoForm(forms.ModelForm):
     class Meta:
         model = Producto
-        fields = ['nombre', 'codigo', 'cantidad', 'precio']
+        fields = ['nombre', 'codigo', 'stock', 'precio', 'activo']
 
 # Formulario transaccional y de registro de clientes
 class ClienteForm(forms.ModelForm):

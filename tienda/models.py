@@ -4,11 +4,12 @@ from django.db import models
 class Producto(models.Model):
     nombre = models.CharField(max_length=100, verbose_name="Nombre del producto")
     codigo = models.CharField(max_length=50, unique=True, verbose_name="Código del producto")
-    cantidad = models.PositiveIntegerField(verbose_name="Cantidad disponible")
+    stock = models.PositiveIntegerField(verbose_name="Cantidad disponible")
     precio = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Precio del producto")
+    activo = models.BooleanField(default=True, verbose_name="¿Producto activo?")
 
     def __str__(self):
-        return f"{self.nombre} ({self.codigo}) - Stock: {self.cantidad}, Precio: ${self.precio}"
+        return f"{self.nombre} ({self.codigo}) - Stock: {self.stock}, Precio: ${self.precio}, Activo: {self.activo}"
 
 # Modelos para los clientes de la tienda.
 class Cliente(models.Model):
