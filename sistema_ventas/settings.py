@@ -38,7 +38,7 @@ SECRET_KEY = 'django-insecure-3botpldr1#*kyoa!08#zb(91riqnwu#=qqrr%$)8_)bh4$yv+a
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'evaluacion-backend-k0mt4o30p-martins-3416.vercel.app',
+    '.vercel.app',
     'localhost',
     '127.0.0.1'
 
