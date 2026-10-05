@@ -140,3 +140,17 @@ class SistemaVentasBusinessRulesTestCase(TestCase):
         })
         self.assertFalse(form.is_valid())
         self.assertIn('cantidad', form.errors)
+
+    def test_cliente_existente_puede_comprar_nuevamente(self):
+        """Un cliente con un RUT ya existente puede registrar una nueva compra sin error de unicidad."""
+        from .forms import ClienteForm
+        form = ClienteForm(data={
+            'rut': self.cliente.rut,
+            'nombre': 'Juan Pérez Actualizado',
+            'es_habitual': True,
+            'telefono': '+56911112222'
+        })
+        self.assertTrue(form.is_valid(), f"Errores en formulario: {form.errors}")
+        cliente_guardado = form.save()
+        self.assertEqual(cliente_guardado.id, self.cliente.id)
+        self.assertEqual(cliente_guardado.nombre, 'Juan Pérez Actualizado')

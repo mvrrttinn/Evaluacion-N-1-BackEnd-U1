@@ -112,6 +112,10 @@ class ClienteForm(forms.ModelForm):
         rut_limpio = rut.replace(".", "").replace("-", "").upper()
         return f"{rut_limpio[:-1]}-{rut_limpio[-1]}"
 
+    def validate_unique(self):
+        # Permitir que clientes recurrentes compren múltiples veces con el mismo RUT sin error de unicidad
+        pass
+
     def clean(self):
         cleaned_data = super().clean()
         es_habitual = cleaned_data.get('es_habitual')

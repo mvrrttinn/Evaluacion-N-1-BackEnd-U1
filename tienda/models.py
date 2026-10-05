@@ -18,6 +18,20 @@ class Cliente(models.Model):
         verbose_name_plural = "Clientes"
         ordering = ['nombre']
 
+    def clean(self):
+        super().clean()
+        if self.rut:
+            rut_limpio = str(self.rut).replace(".", "").replace("-", "").strip().upper()
+            if len(rut_limpio) >= 2:
+                self.rut = f"{rut_limpio[:-1]}-{rut_limpio[-1]}"
+
+    def save(self, *args, **kwargs):
+        if self.rut:
+            rut_limpio = str(self.rut).replace(".", "").replace("-", "").strip().upper()
+            if len(rut_limpio) >= 2:
+                self.rut = f"{rut_limpio[:-1]}-{rut_limpio[-1]}"
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.nombre} ({self.rut})"
 
