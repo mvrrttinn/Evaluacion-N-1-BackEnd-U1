@@ -21,7 +21,7 @@ class Cliente(models.Model):
     telefono = models.CharField(max_length=15, verbose_name="Teléfono del cliente")
 
     def __str__(self):
-        return {self.rut}
+        return f"{self.nombre} ({self.rut})"
 
 class Venta(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, verbose_name="Cliente")
