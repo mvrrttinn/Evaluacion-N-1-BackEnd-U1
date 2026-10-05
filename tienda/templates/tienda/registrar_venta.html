@@ -1,25 +1,120 @@
 {% extends 'tienda/base.html' %}
 {% load crispy_forms_tags %}
 
+{% block title %}Registrar Nueva Venta | Sistema de Ventas{% endblock %}
+
 {% block content %}
-<div class="card shadow-sm p-4 w-50 mx-auto mt-4 mb-4">
-    <h2 class="mb-4 text-center">Registrar Venta</h2>
-    
-    <form method="post">
-        {% csrf_token %}
-        
-        <h4 class="text-secondary border-bottom pb-2 mb-3">Datos del Cliente</h4>
-        <!-- Renderiza el formulario del cliente con Crispy -->
-        {{ cliente_form|crispy }}
-        
-        <h4 class="text-secondary border-bottom pb-2 mb-3 mt-4">Detalle de la Venta</h4>
-        <!-- Renderiza el formulario de la venta con Crispy -->
-        {{ venta_form|crispy }}
-        
-        <div class="d-grid gap-2 mt-4">
-            <button type="submit" class="btn btn-success btn-lg">Procesar Venta</button>
-            <a href="{% url 'inventario' %}" class="btn btn-outline-secondary">Cancelar</a>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-lg p-4 mb-4">
+            <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4" style="border-color: #1f3829 !important;">
+                <div class="rounded-circle p-3 d-flex align-items-center justify-content-center" style="background-color: rgba(251, 146, 60, 0.15); width: 50px; height: 50px;">
+                    <i class="bi bi-cart-plus text-warning fs-3"></i>
+                </div>
+                <div>
+                    <h2 class="mb-0 fs-3">Registrar Nueva Venta</h2>
+                    <p class="text-muted small mb-0">El stock del producto se descontará automáticamente al procesar la venta.</p>
+                </div>
+            </div>
+            
+            <form method="post" novalidate>
+                {% csrf_token %}
+                
+                <!-- Sección 1: Datos del Cliente -->
+                <div class="card mb-4 bg-transparent border" style="border-color: #1f3829;">
+                    <div class="card-header bg-transparent py-3 border-bottom" style="border-color: #1f3829;">
+                        <h5 class="mb-0 text-warning d-flex align-items-center gap-2">
+                            <i class="bi bi-person-badge"></i> 1. Identificación del Cliente
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-light fw-semibold">RUT del Cliente <span class="text-danger">*</span></label>
+                                {{ cliente_form.rut }}
+                                {% if cliente_form.rut.errors %}
+                                    <div class="text-danger small mt-1">{{ cliente_form.rut.errors.0 }}</div>
+                                {% endif %}
+                                <small class="text-muted">Formato: 12.345.678-9 (validado con Módulo 11)</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-light fw-semibold">Nombre del Cliente</label>
+                                {{ cliente_form.nombre }}
+                                {% if cliente_form.nombre.errors %}
+                                    <div class="text-danger small mt-1">{{ cliente_form.nombre.errors.0 }}</div>
+                                {% endif %}
+                                <small class="text-muted">Requerido si es cliente habitual</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-light fw-semibold">Teléfono</label>
+                                {{ cliente_form.telefono }}
+                                {% if cliente_form.telefono.errors %}
+                                    <div class="text-danger small mt-1">{{ cliente_form.telefono.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-light fw-semibold">Correo Electrónico</label>
+                                {{ cliente_form.correo_electronico }}
+                                {% if cliente_form.correo_electronico.errors %}
+                                    <div class="text-danger small mt-1">{{ cliente_form.correo_electronico.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check form-switch mt-2">
+                                    {{ cliente_form.es_habitual }}
+                                    <label class="form-check-label text-light" for="{{ cliente_form.es_habitual.id_for_label }}">
+                                        ¿Marcar como Cliente Habitual?
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 2: Detalle del Producto a Vender -->
+                <div class="card mb-4 bg-transparent border" style="border-color: #1f3829;">
+                    <div class="card-header bg-transparent py-3 border-bottom" style="border-color: #1f3829;">
+                        <h5 class="mb-0 text-warning d-flex align-items-center gap-2">
+                            <i class="bi bi-box-seam"></i> 2. Detalle del Producto
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <label class="form-label text-light fw-semibold">Seleccionar Producto <span class="text-danger">*</span></label>
+                                {{ detalle_form.producto }}
+                                {% if detalle_form.producto.errors %}
+                                    <div class="text-danger small mt-1">{{ detalle_form.producto.errors.0 }}</div>
+                                {% endif %}
+                                <small class="text-muted">Solo se listan productos activos con stock</small>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label text-light fw-semibold">Cantidad <span class="text-danger">*</span></label>
+                                {{ detalle_form.cantidad }}
+                                {% if detalle_form.cantidad.errors %}
+                                    <div class="text-danger small mt-1">{{ detalle_form.cantidad.errors.0 }}</div>
+                                {% endif %}
+                                <small class="text-muted">Mínimo 1 unidad</small>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-light fw-semibold">Observaciones de la Venta (Opcional)</label>
+                                {{ venta_form.observaciones }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Acciones -->
+                <div class="d-flex flex-column flex-sm-row gap-2 mt-4">
+                    <button type="submit" class="btn btn-success btn-lg flex-grow-1 d-flex align-items-center justify-content-center gap-2">
+                        <i class="bi bi-check2-circle fs-5"></i> Procesar y Registrar Venta
+                    </button>
+                    <a href="{% url 'inventario' %}" class="btn btn-outline-secondary btn-lg">
+                        Cancelar
+                    </a>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
 {% endblock %}

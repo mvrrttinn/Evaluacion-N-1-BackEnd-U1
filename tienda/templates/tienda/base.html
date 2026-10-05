@@ -4,35 +4,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Ventas</title>
+    <title>{% block title %}Sistema de Ventas{% endblock %}</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- CSS Personalizado -->
     <link rel="stylesheet" href="{% static 'tienda/css/style.css' %}">
 </head>
-<body class="bg-light">
+<body>
     <!-- Barra de navegación -->
-    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4 sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'inventario' %}">Sistema de Ventas</a>
+            <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'inventario' %}">
+                <i class="bi bi-shop"></i>
+                <span>Sistema de Ventas</span>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <div class="navbar-nav gap-2">
-                    <a class="nav-link" href="{% url 'inventario' %}">Inventario</a>
-                    <a class="nav-link" href="{% url 'registrar_venta' %}">Registrar Venta</a>
-                    <a class="nav-link" href="{% url 'historial_ventas' %}">Historial de Ventas</a>
+                <div class="navbar-nav gap-2 align-items-center">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'inventario' %}active{% endif %}" href="{% url 'inventario' %}">
+                        <i class="bi bi-box-seam me-1"></i> Inventario
+                    </a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'registrar_venta' %}active{% endif %}" href="{% url 'registrar_venta' %}">
+                        <i class="bi bi-cart-plus me-1"></i> Registrar Venta
+                    </a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'historial_ventas' %}active{% endif %}" href="{% url 'historial_ventas' %}">
+                        <i class="bi bi-clock-history me-1"></i> Historial de Ventas
+                    </a>
+                    <a class="nav-link btn btn-sm btn-outline-secondary ms-lg-2 px-3" href="{% url 'admin:index' %}" target="_blank">
+                        <i class="bi bi-shield-lock me-1"></i> Admin Django
+                    </a>
                 </div>
             </div>
         </div>
     </nav>
     
-    <div class="container">
-        <!-- Bloque dinámico donde se inyectará el contenido de las otras pantallas -->
+    <div class="container pb-5">
+        <!-- Notificaciones y Mensajes de Django -->
+        {% if messages %}
+            <div class="messages-container mb-4">
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'error' %}alert-danger{% elif message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% else %}alert-info{% endif %} alert-dismissible fade show shadow-sm" role="alert">
+                        <div class="d-flex align-items-center gap-2">
+                            {% if message.tags == 'error' %}
+                                <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+                            {% elif message.tags == 'success' %}
+                                <i class="bi bi-check-circle-fill fs-5"></i>
+                            {% elif message.tags == 'warning' %}
+                                <i class="bi bi-exclamation-circle-fill fs-5"></i>
+                            {% else %}
+                                <i class="bi bi-info-circle-fill fs-5"></i>
+                            {% endif %}
+                            <div>{{ message }}</div>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Bloque dinámico donde se inyecta el contenido -->
         {% block content %}
         {% endblock %}
     </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

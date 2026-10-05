@@ -1,14 +1,79 @@
 {% extends 'tienda/base.html' %}
 {% load crispy_forms_tags %}
 
+{% block title %}Editar Producto | Sistema de Ventas{% endblock %}
+
 {% block content %}
-<div class="card shadow-sm p-4 w-50 mx-auto mt-4">
-    <h2 class="mb-3">Editar Producto</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button type="submit" class="btn btn-primary mt-3 w-100">Actualizar Producto</button>
-        <a href="{% url 'inventario' %}" class="btn btn-outline-secondary mt-2 w-100">Cancelar</a>
-    </form>
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card shadow-lg p-4">
+            <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4" style="border-color: #1f3829 !important;">
+                <div class="rounded-circle p-3 d-flex align-items-center justify-content-center" style="background-color: rgba(251, 146, 60, 0.15); width: 48px; height: 48px;">
+                    <i class="bi bi-pencil-square text-warning fs-4"></i>
+                </div>
+                <div>
+                    <h2 class="mb-0 fs-3">Editar Producto</h2>
+                    <p class="text-muted small mb-0">Modificando el registro de <strong class="text-light">{{ producto.nombre }}</strong></p>
+                </div>
+            </div>
+
+            <form method="post" novalidate>
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label class="form-label text-light fw-semibold">Nombre del Producto <span class="text-danger">*</span></label>
+                    {{ form.nombre }}
+                    {% if form.nombre.errors %}
+                        <div class="text-danger small mt-1">{{ form.nombre.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-light fw-semibold">Código Único del Producto <span class="text-danger">*</span></label>
+                    {{ form.codigo }}
+                    {% if form.codigo.errors %}
+                        <div class="text-danger small mt-1">{{ form.codigo.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-sm-6">
+                        <label class="form-label text-light fw-semibold">Stock Disponible <span class="text-danger">*</span></label>
+                        {{ form.stock }}
+                        {% if form.stock.errors %}
+                            <div class="text-danger small mt-1">{{ form.stock.errors.0 }}</div>
+                        {% endif %}
+                        <small class="text-muted">Mínimo 0 unidades</small>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label text-light fw-semibold">Precio Unitario ($) <span class="text-danger">*</span></label>
+                        {{ form.precio }}
+                        {% if form.precio.errors %}
+                            <div class="text-danger small mt-1">{{ form.precio.errors.0 }}</div>
+                        {% endif %}
+                        <small class="text-muted">Mínimo $1.00</small>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="form-check form-switch">
+                        {{ form.activo }}
+                        <label class="form-check-label text-light" for="{{ form.activo.id_for_label }}">
+                            ¿Producto Activo para Venta?
+                        </label>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary flex-grow-1">
+                        <i class="bi bi-arrow-repeat me-1"></i> Actualizar Producto
+                    </button>
+                    <a href="{% url 'inventario' %}" class="btn btn-outline-secondary">
+                        Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

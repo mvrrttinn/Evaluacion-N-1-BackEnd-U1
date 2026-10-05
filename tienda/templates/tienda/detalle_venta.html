@@ -1,0 +1,124 @@
+{% extends 'tienda/base.html' %}
+
+{% block title %}Comprobante Venta #{{ venta.id }} | Sistema de Ventas{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <a href="{% url 'historial_ventas' %}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Volver al Historial
+            </a>
+            <div class="d-flex gap-2">
+                <button onclick="window.print();" class="btn btn-outline-primary">
+                    <i class="bi bi-printer me-1"></i> Imprimir Comprobante
+                </button>
+                <a href="{% url 'eliminar_venta' venta.id %}" class="btn btn-outline-danger" onclick="return confirm('¿Confirma que desea anular esta venta? Se restaurará el stock de los productos.');">
+                    <i class="bi bi-x-circle me-1"></i> Anular Venta
+                </a>
+            </div>
+        </div>
+
+        <div class="card p-4 shadow-lg border-secondary">
+            <div class="card-body">
+                <!-- Encabezado del comprobante -->
+                <div class="d-flex justify-content-between align-items-start border-bottom pb-4 mb-4" style="border-color: #1f3829 !important;">
+                    <div>
+                        <h3 class="text-warning mb-1"><i class="bi bi-shop me-2"></i>Sistema de Ventas</h3>
+                        <p class="text-muted small mb-0">Comprobante de Venta Electrónico</p>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge bg-warning text-dark fs-6 px-3 py-2">VENTA #{{ venta.id }}</span>
+                        <div class="text-muted small mt-2">
+                            Fecha: <strong class="text-light">{{ venta.fecha_venta|date:"d/m/Y H:i" }}</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Datos del Cliente -->
+                <div class="card mb-4 bg-transparent border-1" style="border-color: #1f3829;">
+                    <div class="card-header bg-transparent py-2 px-3 border-bottom" style="border-color: #1f3829;">
+                        <h6 class="mb-0 text-warning"><i class="bi bi-person me-2"></i>Información del Cliente</h6>
+                    </div>
+                    <div class="card-body py-3 px-3">
+                        <div class="row g-2">
+                            <div class="col-sm-6">
+                                <small class="text-muted d-block">Nombre / Razón Social:</small>
+                                <strong class="text-light">{{ venta.cliente.nombre }}</strong>
+                            </div>
+                            <div class="col-sm-6">
+                                <small class="text-muted d-block">RUT:</small>
+                                <strong class="text-light">{{ venta.cliente.rut }}</strong>
+                            </div>
+                            <div class="col-sm-6">
+                                <small class="text-muted d-block">Tipo de Cliente:</small>
+                                {% if venta.cliente.es_habitual %}
+                                    <span class="badge bg-success-subtle text-success">Cliente Habitual</span>
+                                {% else %}
+                                    <span class="badge bg-secondary-subtle text-secondary">Cliente Ocasional</span>
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-6">
+                                <small class="text-muted d-block">Teléfono / Contacto:</small>
+                                <span class="text-light">{{ venta.cliente.telefono|default:"No informado" }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de Detalles de Productos -->
+                <h6 class="text-warning mb-3"><i class="bi bi-cart-check me-2"></i>Detalle de Productos Vendidos</h6>
+                <div class="table-responsive mb-4">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Descripción</th>
+                                <th class="text-center">Cantidad</th>
+                                <th class="text-end">Precio Unitario</th>
+                                <th class="text-end">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for detalle in venta.detalles.all %}
+                            <tr>
+                                <td><span class="text-warning">{{ detalle.producto.codigo }}</span></td>
+                                <td>{{ detalle.producto.nombre }}</td>
+                                <td class="text-center"><strong>{{ detalle.cantidad }}</strong></td>
+                                <td class="text-end">${{ detalle.precio_unitario|floatformat:2 }}</td>
+                                <td class="text-end fw-bold text-light">${{ detalle.subtotal|floatformat:2 }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-3">No hay detalles registrados.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr class="border-top" style="border-color: #1f3829 !important;">
+                                <td colspan="4" class="text-end fs-5 fw-bold text-light">TOTAL DE LA VENTA:</td>
+                                <td class="text-end fs-4 fw-bold text-warning">${{ venta.total_venta|floatformat:2 }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                {% if venta.observaciones %}
+                <div class="p-3 rounded mb-3" style="background-color: #0b1610; border: 1px solid #1f3829;">
+                    <small class="text-muted d-block fw-semibold mb-1">Observaciones:</small>
+                    <p class="mb-0 text-light small">{{ venta.observaciones }}</p>
+                </div>
+                {% endif %}
+
+                <div class="d-flex justify-content-between align-items-center text-muted small pt-3 border-top" style="border-color: #1f3829 !important;">
+                    <span>Documento generado por el Sistema de Ventas</span>
+                    <a href="{% url 'registrar_venta' %}" class="btn btn-sm btn-success">
+                        <i class="bi bi-cart-plus me-1"></i> Registrar Otra Venta
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
