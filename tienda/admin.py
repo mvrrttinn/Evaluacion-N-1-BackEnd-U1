@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import Q
 from django.utils.html import format_html
 from .models import Producto, Cliente, Venta, DetalleVenta
 
@@ -76,11 +77,28 @@ class VentaAdmin(admin.ModelAdmin):
         ('fecha_venta', admin.DateFieldListFilter),
         'cliente__es_habitual',
     )
-    search_fields = ('id', 'cliente__rut', 'cliente__nombre')
+    search_fields = ('cliente__rut', 'cliente__nombre')
     date_hierarchy = 'fecha_venta'
     readonly_fields = ('fecha_venta', 'mostrar_total_formulario')
     ordering = ('-fecha_venta',)
     list_per_page = 20
+
+    def get_search_results(self, request, queryset, search_term):
+        """Búsqueda inteligente: por ID exacto si es número, o por RUT/nombre del cliente."""
+        queryset, use_distinct = super().get_search_results(request, queryset, search_term)
+        if search_term:
+            search_term = search_term.strip()
+            if search_term.isdigit():
+                queryset |= self.model.objects.filter(
+                    Q(id=int(search_term)) |
+                    Q(cliente__rut__icontains=search_term)
+                )
+            else:
+                queryset |= self.model.objects.filter(
+                    Q(cliente__rut__icontains=search_term) |
+                    Q(cliente__nombre__icontains=search_term)
+                )
+        return queryset, use_distinct
 
     fieldsets = (
         ('Información General de la Venta', {

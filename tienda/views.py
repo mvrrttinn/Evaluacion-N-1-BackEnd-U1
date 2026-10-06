@@ -118,11 +118,16 @@ def historial_ventas(request):
     ventas_list = Venta.objects.select_related('cliente').prefetch_related('detalles__producto').all().order_by('-fecha_venta')
 
     if query:
-        ventas_list = ventas_list.filter(
-            Q(cliente__rut__icontains=query) |
-            Q(cliente__nombre__icontains=query) |
-            Q(id__icontains=query)
-        )
+        if query.isdigit():
+            ventas_list = ventas_list.filter(
+                Q(id=int(query)) |
+                Q(cliente__rut__icontains=query)
+            )
+        else:
+            ventas_list = ventas_list.filter(
+                Q(cliente__rut__icontains=query) |
+                Q(cliente__nombre__icontains=query)
+            )
 
     if fecha_inicio:
         try:
