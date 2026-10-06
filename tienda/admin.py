@@ -90,12 +90,14 @@ class VentaAdmin(admin.ModelAdmin):
 
     @admin.display(description="Total Venta", ordering='total_venta')
     def mostrar_total(self, obj):
-        return format_html('<strong style="color: #fb923c;">${:,.2f}</strong>', obj.total_venta)
+        total_formateado = f"${obj.total_venta:,.2f}"
+        return format_html('<strong style="color: #fb923c;">{}</strong>', total_formateado)
 
     @admin.display(description="Total Calculado")
     def mostrar_total_formulario(self, obj):
         if obj.pk:
-            return format_html('<span style="font-size: 1.25rem; font-weight: 700; color: #fb923c;">${:,.2f}</span>', obj.total_venta)
+            total_formateado = f"${obj.total_venta:,.2f}"
+            return format_html('<span style="font-size: 1.25rem; font-weight: 700; color: #fb923c;">{}</span>', total_formateado)
         return "Se calculará automáticamente al guardar los detalles."
 
     @admin.display(description="N° Productos")
