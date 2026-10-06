@@ -72,7 +72,8 @@ class Producto(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.nombre} ({self.codigo}) - Stock: {self.stock} - ${self.precio:,.2f}"
+        precio = float(self.precio) if self.precio else 0.0
+        return f"{self.nombre} ({self.codigo}) - Stock: {self.stock} - ${precio:,.2f}"
 
 
 # ==============================================================================
@@ -107,7 +108,9 @@ class Venta(models.Model):
         return total
 
     def __str__(self):
-        return f"Venta #{self.id} - {self.cliente.nombre} - ${self.total_venta:,.2f} ({self.fecha_venta.strftime('%d/%m/%Y %H:%M') if self.fecha_venta else 'Pendiente'})"
+        total = float(self.total_venta) if self.total_venta else 0.0
+        fecha = self.fecha_venta.strftime('%d/%m/%Y %H:%M') if self.fecha_venta else 'Pendiente'
+        return f"Venta #{self.id} - {self.cliente.nombre} - ${total:,.2f} ({fecha})"
 
 
 # ==============================================================================
@@ -221,4 +224,6 @@ class DetalleVenta(models.Model):
                 venta.calcular_total()
 
     def __str__(self):
-        return f"{self.cantidad} x {self.producto.nombre} (${self.precio_unitario:,.2f}) = ${self.subtotal:,.2f}"
+        precio = float(self.precio_unitario) if self.precio_unitario else 0.0
+        sub = float(self.subtotal) if self.subtotal else 0.0
+        return f"{self.cantidad} x {self.producto.nombre} (${precio:,.2f}) = ${sub:,.2f}"
