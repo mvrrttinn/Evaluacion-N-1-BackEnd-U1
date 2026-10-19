@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'tienda',
     'crispy_forms',
     'crispy_bootstrap5',
+    'rest_framework',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
@@ -155,3 +156,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

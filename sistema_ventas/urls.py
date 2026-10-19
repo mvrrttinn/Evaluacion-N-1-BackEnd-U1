@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # Conectar la ruta raiz a las URLs de la aplicación "tienda"
     path('', include('tienda.urls')), # Esto conecta todas las URLs de la app "tienda"
+    path("api-auth/", include("rest_framework.urls")),  # Agregar esta línea para la autenticación de la API
 ]
