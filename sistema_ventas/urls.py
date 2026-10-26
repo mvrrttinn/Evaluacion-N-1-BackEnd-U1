@@ -17,9 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include # Importar include
 
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
+from tienda.api import router
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     # Conectar la ruta raiz a las URLs de la aplicación "tienda"
     path('', include('tienda.urls')), # Esto conecta todas las URLs de la app "tienda"
     path("api-auth/", include("rest_framework.urls")),  # Agregar esta línea para la autenticación de la API
+
+    path("api/", include(router.urls)),
+
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

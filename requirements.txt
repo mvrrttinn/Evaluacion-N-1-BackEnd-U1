@@ -12,3 +12,4 @@ whitenoise
 django-filter
 markdown
 djangorestframework
+djangorestframework-simplejwt
