@@ -14,6 +14,8 @@ from pathlib import Path
 import psycopg2
 import os
 from dotenv import load_dotenv
+from datetime import timedelta
+
 
 load_dotenv()  # Carga las variables de entorno desde el archivo .env
 db_host = os.getenv("host")
@@ -44,7 +46,11 @@ ALLOWED_HOSTS = [
 
 ]
 
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://front-end-react-ev3.vercel.app",
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -55,6 +61,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Registramos Las Aplicaciones Aquí
+    'corsheaders',
     'tienda',
     'crispy_forms',
     'crispy_bootstrap5',
@@ -65,6 +72,7 @@ INSTALLED_APPS = [
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -159,10 +167,18 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated'
+        'rest_framework.permissions.IsAuthenticated',
     )
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATING': False,
+    'AUTH_HEADER_TYPES': ('Bearer',),
 }
